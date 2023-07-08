@@ -62,7 +62,7 @@ function Counter() {
     return <div class='d-flex flex-column justify-content-center align-items-center' >
             <div>
                 <p style={{fontSize: fontSize + "vh"}}>
-                    Take: { count }
+                    Take { count }
                 </p>
             </div>
             <div class=''>
