@@ -1,6 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { setMinimum } from '../util';
+import { setMinimum, useKeyHandler } from '../util';
+
+const fontSize = "7em";
+
+const incrementKey = "+";
+const decrementKey = "-";
+const resetKey = "0";
 
 function Counter() {
     let [count, setCount] = useState(1);
@@ -21,62 +27,52 @@ function Counter() {
         document.title = "Take " + count;
     }, [count])
 
-    const handleKeyPress = useCallback((keyEvent) => {
+    useKeyHandler((keyEvent) => {
         switch (keyEvent.key) {
-        case "+":
-            incrementCount();
-            break;
-        case "-":
-            decrementCount();
-            break;
-        case "0":
-            resetCount();
-            break;
-        default:
-            break;
+            case incrementKey:
+                incrementCount();
+                break;
+            case decrementKey:
+                decrementCount();
+                break;
+            case resetKey:
+                resetCount();
+                break;
+            default:
+                break;
         }
-    }, [incrementCount, decrementCount, resetCount])
+    });
 
-    useEffect(() => {
-        // attach the event listener
-        document.addEventListener('keydown', handleKeyPress);
-
-        // remove the event listener
-        return () => {
-        document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [handleKeyPress]);
-
-    const defaultFontSize = 10;
-    let [fontSize, setFontSize] = useState(defaultFontSize);
-    setFontSize = setMinimum(setFontSize, 5);
-
-    function incrementFont() {
-        setFontSize(fontSize +  5);
-    }
-    function decrementFont() {
-        setFontSize(fontSize -  5);
-    }
-    function resetFont() {
-        setFontSize(defaultFontSize);
-    }
-   
-    return <div class='d-flex flex-column align-items-center justify-content-center' style={{flexGrow: 1}}>
-                    <div>
-                        <p style={{fontSize: fontSize + "vh"}}>
-                            Take { count }
-                        </p>
-                    </div>
-                    <div class=''>
-                        <button class="btn btn-primary m-1" onClick={incrementCount}>+</button>
-                        <button class='btn btn-primary m-1' onClick={decrementCount}>-</button>
-                        <button class='btn btn-primary m-1' onClick={resetCount}>reset</button>
-                    </div>
-                    <div class=''>
-                        <button class="btn btn-secondary m-1" onClick={incrementFont}>big</button>
-                        <button class='btn btn-secondary m-1' onClick={decrementFont}>small</button>
-                        <button class='btn btn-secondary m-1' onClick={resetFont}>def</button>
-                    </div>
+    return <div className='d-flex flex-column align-items-center justify-content-center' style={{flexGrow: 1}}>
+             <div className='h-100' style={{flexGrow: 1}}/>
+             <div className='d-flex flex-column align-items-center justify-content-center'>
+               <div className="d-flex">
+                 <h1 style={{fontSize: fontSize}}>
+                   Take
+                 </h1>
+                 <input className="bg-transparent h1 text-white border-0"
+                        type="text"
+                        value= { " " + count }
+                        readOnly={ true }
+                        style={{outline: "none",
+                                fontSize: fontSize,
+                                textAlign: "right",
+                                width: 6 + (4.5 * Math.floor(Math.log10(count))) + "rem"}}
+                        />
+               </div>
+               <div className=''>
+                 <button className='btn btn-primary m-1' onClick={decrementCount}>-</button>
+                 <button className='btn btn-primary m-1' onClick={resetCount}>reset</button>
+                 <button className="btn btn-primary m-1" onClick={incrementCount}>+</button>
+               </div>
+             </div>
+             <div className='h-100 d-flex flex-column align-items-center justify-content-center' style={{flexGrow: 1}}>
+               <small className='text-center'>
+                 "{ incrementKey }" key: next take <br/>
+                 "{ decrementKey }" key: previous take <br/>
+                 "{ resetKey }" key: reset to 1
+               </small>
+             </div>
             </div>
 }
 

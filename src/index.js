@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <div className="d-flex flex-column text-white" style={{minHeight: "100vh"}}>
-          <Details  />
-          <Counter  />
+      <Details  />
+      <Counter  />
     </div>
   </React.StrictMode>
 );
