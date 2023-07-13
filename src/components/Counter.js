@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { setMinimum, useKeyHandler } from '../util';
+import { setMinimum, useKeyHandler, calcTextWidth } from '../util';
 
 const fontSize = "7em";
 
@@ -57,7 +57,7 @@ function Counter() {
                         style={{outline: "none",
                                 fontSize: fontSize,
                                 textAlign: "right",
-                                width: 6 + (4.5 * Math.floor(Math.log10(count))) + "rem"}}
+                                width: calcTextWidth(" " + count)}}
                         />
                </div>
                <div className=''>
