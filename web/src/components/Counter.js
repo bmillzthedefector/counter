@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 
-import { setMinimum, useKeyHandler, calcTextWidth } from '../util';
+import { setMinimum, calcTextWidth } from '../util';
 
 const fontSize = "7em";
 
@@ -44,7 +44,7 @@ function Counter() {
     if (Number.isInteger(Number(event.target.value))) {
       setRawCount(Number(event.target.value));
     }
-  });
+  }, [setRawCount]);
 
   return <div className='d-flex flex-column align-items-center justify-content-center' style={{flexGrow: 1}}>
            <div className="d-flex">
