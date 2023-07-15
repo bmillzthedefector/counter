@@ -22,20 +22,23 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+      working-directory: ./web
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: cd web
       - run: npm ci
+        working-directory: ${{env.working-directory}}
       - name: Build
         run: npm run build
+        working-directory: ${{env.working-directory}}
       - name: Configure Github Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
+        working-directory: ${{env.working-directory}}
         with:
           path: './build/'
       - name: Deploy to GitHub Pages
