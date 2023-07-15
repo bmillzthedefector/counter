@@ -5,10 +5,19 @@ import { setMinimum, useKeyHandler, calcTextWidth } from '../util';
 
 const fontSize = "7em";
 
-function Counter() {
-  let [count, setCount] = useState(1);
+function useGlobalShortcut({increment, decrement, reset}) {
+  useEffect(() => {
+    if (window.counter !== undefined) {
+      window.counter.handleIncrement(increment);
+      window.counter.handleDecrement(decrement);
+      window.counter.handleReset(reset);
+    }
+  }, [increment, decrement, reset]);
+}
 
-  setCount = setMinimum(setCount);
+function Counter() {
+  const [count, setRawCount] = useState(1);
+  const setCount = setMinimum(setRawCount);
 
   const incrementCount = useCallback(() => {
     setCount(count + 1);
@@ -25,48 +34,41 @@ function Counter() {
   }, [count]);
 
   // Electron global keyboard shortcuts
-  useEffect(() => {
-    if (window.counter !== undefined) {
-      window.counter.handleIncrement((event) => {
-        incrementCount();
-      });
+  useGlobalShortcut({
+    increment: incrementCount,
+    decrement: decrementCount,
+    reset: resetCount,
+  });
+
+  const inputCount = useCallback((event) => {
+    if (Number.isInteger(Number(event.target.value))) {
+      setRawCount(Number(event.target.value));
     }
-  }, [incrementCount]);
-  useEffect(() => {
-    if (window.counter !== undefined) {
-      window.counter.handleDecrement((event) => {
-        decrementCount();
-      });
-    }
-  }, [decrementCount]);
-  useEffect(() => {
-    if (window.counter !== undefined) {
-      window.counter.handleReset((event) => {
-        resetCount();
-      });
-    }
-  }, [resetCount]);
+  });
 
   return <div className='d-flex flex-column align-items-center justify-content-center' style={{flexGrow: 1}}>
-             <div className="d-flex">
-               <h1 style={{fontSize: fontSize}}>
-                 Take
-               </h1>
-               <input className="bg-transparent h1 text-white border-0"
-                      type="text"
-                      value= { " " + count }
-                      readOnly={ true }
-                      style={{outline: "none",
-                              fontSize: fontSize,
-                              textAlign: "right",
-                              width: calcTextWidth(" " + count)}}
-               />
-             </div>
-             <div className=''>
-               <button className='btn btn-primary m-1' onClick={decrementCount}>-</button>
-               <button className='btn btn-primary m-1' onClick={resetCount}>reset</button>
-               <button className="btn btn-primary m-1" onClick={incrementCount}>+</button>
-             </div>
+           <div className="d-flex">
+             <h1 className="" style={{
+               fontSize: fontSize,
+               marginRight: "0.5ch"
+             }}>
+               Take
+             </h1>
+             <input className="bg-transparent h1 text-white border-0"
+                    type="text"
+                    value= { count }
+                    onChange={ inputCount }
+                    style={{outline: "none",
+                            fontSize: fontSize,
+                            textAlign: "right",
+                            width: calcTextWidth(count)}}
+             />
+           </div>
+           <div className=''>
+             <button className='btn btn-primary m-1' onClick={decrementCount}>-</button>
+             <button className='btn btn-primary m-1' onClick={resetCount}>reset</button>
+             <button className="btn btn-primary m-1" onClick={incrementCount}>+</button>
+           </div>
          </div>
 }
 
