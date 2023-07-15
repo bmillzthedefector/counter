@@ -19,10 +19,11 @@ concurrency:
 
 jobs:
   build:
+    env:
+      working-directory: ./web
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      working-directory: ./web
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
