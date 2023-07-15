@@ -17,10 +17,10 @@ const createWindow = () => {
     },
   });
 
-  globalShortcut.register('Alt+CommandOrControl+I', () => {
+  globalShortcut.register('F12', () => {
     mainWindow.webContents.send('increment-counter')
   });
-  globalShortcut.register('Alt+CommandOrControl+D', () => {
+  globalShortcut.register('F11', () => {
     mainWindow.webContents.send('decrement-counter')
   });
   globalShortcut.register('Alt+CommandOrControl+R', () => {

@@ -1,8 +1,8 @@
 {
-  "name": "Counter",
-  "productName": "Counter",
-  "version": "0.1.0",
-  "description": "The Electron version of Counter",
+  "name": "Take Counter",
+  "productName": "Take Counter",
+  "version": "0.2.0",
+  "description": "A take counter for recording sessions.",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
