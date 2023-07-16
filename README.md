@@ -1,8 +1,8 @@
 # Take Counter 
 
-## Status 
+[![Test Web App](https://github.com/kclapper/counter/actions/workflows/test-web-app.yml/badge.svg)](https://github.com/kclapper/counter/actions/workflows/test-web-app.yml)
 
-[![Test Web App](https://github.com/kclapper/counter/actions/workflows/test-web-app.yml/badge.svg?event=push)](https://github.com/kclapper/counter/actions/workflows/test-web-app.yml)
+
 
 ## Organization 
 This app has two major components; a web app and an Electron app.
